@@ -1,0 +1,63 @@
+<h2>生成Manifest配置文件</h2>
+<div class="layout vertical start-justified">
+    <ui-prop name="版本号">
+        <div class="flex-1 layout horizontal center">
+            <ui-input class="flex-1" v-value="version"></ui-input>
+        </div>
+
+    </ui-prop>
+
+    <ui-prop name="资源服务器根目录">
+        <div class="flex-1 layout horizontal center">
+            <ui-input class="flex-2" v-value="serverRootDir"></ui-input>
+            <!--<ui-button v-on:confirm="onSelectGenServerRootDir">选择</ui-button>-->
+        </div>
+    </ui-prop>
+
+    <ui-prop name="项目资源文件目录">
+        <div class="flex-1 layout horizontal center">
+            <ui-input class="flex-2" v-value="resourceRootDir"></ui-input>
+            <ui-button v-on:confirm="onSelectResourceRootDir">选择</ui-button>
+            <ui-button v-on:confirm="onOpenResourceDir">打开</ui-button>
+        </div>
+    </ui-prop>
+
+    <ui-prop name="manifest存储目录">
+        <div class="flex-1 layout horizontal center">
+            <ui-input class="flex-2" v-value="genManifestDir"></ui-input>
+            <ui-button v-on:confirm="onSelectGenManifestDir">选择</ui-button>
+            <ui-button v-on:confirm="onOpenManifestDir">打开</ui-button>
+        </div>
+    </ui-prop>
+
+    <div class="self-end">
+        <!--<ui-button class="self-start" v-on:confirm="onCleanAPPCfg">-->
+        <!--清除APP配置-->
+        <!--</ui-button>-->
+        <ui-button class="self-end" v-on:confirm="onClickGenCfg">
+            生成
+        </ui-button>
+    </div>
+</div>
+<hr>
+<h2>部署到测试服务器</h2>
+<div class="layout vertical">
+    <ui-prop name="本机server物理路径">
+        <div class="flex-1 layout horizontal center">
+            <ui-input class="flex-2" v-value="localServerPath"></ui-input>
+            <ui-button v-on:confirm="onSelectLocalServerPath">选择</ui-button>
+            <ui-button v-on:confirm="onCopyFileToLocalServer">部署</ui-button>
+
+        </div>
+    </ui-prop>
+    <ui-progress style="width: 100%;" v-value="copyProgress">40</ui-progress>
+</div>
+<hr>
+<div class="layout vertical" style="width: 100%; height: auto">
+    日志:
+    <ui-text-area resize-v class ="massive" style="width: 100%;" v-value="logView">
+        text-area
+    </ui-text-area>
+</div>
+
+
