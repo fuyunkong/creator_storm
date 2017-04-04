@@ -27,6 +27,8 @@ Editor.Panel.extend({
                 verManifestPath: "verManifestPath",
 
                 version: "",
+	              versionname: "",
+
                 genManifestDir: "",
                 serverRootDir: "",
                 resourceRootDir: "",
@@ -40,11 +42,11 @@ Editor.Panel.extend({
 
             },
             methods: {
-                _addLog(str){
+                _addLog: function (str){
                     var time = new Date();
                     this.logView = "[" + time.toLocaleString() + "]: " + str + "\n" + this.logView;
                 },
-                _getFileIsExist(path){
+                _getFileIsExist: function (path){
                     try {
                         fs.accessSync(path, fs.F_OK);
                     } catch (e) {
@@ -52,29 +54,44 @@ Editor.Panel.extend({
                     }
                     return true;
                 },
-                _getAppCfgPath(){
+                _getAppCfgPath: function (){
                     return remote.app.getPath('userData') + "\\hotUpdateConfig.json";
                 },
-                onCleanAPPCfg(){
+                onCleanAPPCfg: function (){
                     fs.unlink(this._getAppCfgPath());
                 },
-                _saveConfig(){
+                _saveConfig: function (){
                     let configFilePath = this._getAppCfgPath();
                     var data = {
                         version: this.version,
+	                      versionname: this.versionname,
+
                         serverRootDir: this.serverRootDir,
                         resourceRootDir: this.resourceRootDir,
                         genManifestDir: this.genManifestDir,
 
                         localServerPath: this.localServerPath,
                     };
-                    fs.writeFile(configFilePath, JSON.stringify(data), function (error) {
+
+                    fs.writeFile(configFilePath, JSON.stringify(data), 'utf8',function (error) {
                         if (!error) {
                             console.log("保存配置成功!");
                         }
                     });
+
+                    //自定义写入文件
+	                let configHot = Editor.url('db://assets/resources'+ "\\hotUpdateConfig.json");
+	                var hotData ={
+		                version: this.version,
+		                versionname: this.versionname,
+	                };
+	                fs.writeFile(configHot, JSON.stringify(hotData), function (error) {
+		                if (!error) {
+			                console.log("保存配置成功!");
+		                }
+	                });
                 },
-                _initPluginCfg(){
+                _initPluginCfg: function (){
                     let configFilePath = this._getAppCfgPath();
                     var b = this._getFileIsExist(configFilePath);
                     if (b) {
@@ -84,6 +101,8 @@ Editor.Panel.extend({
                                 var saveData = JSON.parse(data.toString());
                                 console.log(data.toString());
                                 plugin.version = saveData.version;
+	                              plugin.versionname = saveData.versionname;
+
                                 plugin.serverRootDir = saveData.serverRootDir;
                                 plugin.resourceRootDir = saveData.resourceRootDir;
                                 plugin.genManifestDir = saveData.genManifestDir;
@@ -95,7 +114,7 @@ Editor.Panel.extend({
                         this._saveConfig();
                     }
                 },
-                onClickGenCfg(event){
+                onClickGenCfg: function (event){
                     //Editor.Ipc.sendToMain('hotUpdateTools:test', 'Hello, this is simple panel');
                     if (!this.version || this.version.length <= 0) {
                         this._addLog("版本号未填写");
@@ -139,7 +158,7 @@ Editor.Panel.extend({
                     this._genVersion(this.version, this.serverRootDir, this.resourceRootDir, this.genManifestDir);
                 },
                 // 是否以斜杠结尾
-                _formatPathWithSlantingChar(path){
+                _formatPathWithSlantingChar: function (path){
 
                 },
                 // serverUrl 必须以/结尾
@@ -239,7 +258,7 @@ Editor.Panel.extend({
                     });
                 },
                 // 选择物理server路径
-                onSelectLocalServerPath(event){
+                onSelectLocalServerPath: function (event){
                     let res = Editor.Dialog.openFile({
                         title: "选择本地测试服务器目录",
                         defaultPath: Editor.projectInfo.path,
@@ -251,7 +270,7 @@ Editor.Panel.extend({
                     }
                 },
                 // 拷贝文件到测试服务器
-                onCopyFileToLocalServer(){
+                onCopyFileToLocalServer: function (){
                     // 检查要拷贝的目录情况
                     if (!fs.existsSync(this.localServerPath)) {
                         this._addLog("本地测试服务器目录不存在:" + this.localServerPath);
@@ -305,13 +324,13 @@ Editor.Panel.extend({
                 },
 
                 // 获取要操作的文件总数量
-                _getTotalNum(){
+                _getTotalNum: function (){
                     var delNum = this._getFileNum(this.localServerPath);
                     var srcNum = this._getFileNum(path.join(this.resourceRootDir, "src"));
                     var resNum = this._getFileNum(path.join(this.resourceRootDir, "res"));
                     return delNum + srcNum + resNum + 2 + 2;// 2个manifest,2个目录(src, res)
                 },
-                addProgress(){
+                addProgress: function (){
                     this.curNum++;
                     var p = this.curNum / this.totalNum;
                     p = p ? p : 0;
@@ -322,7 +341,7 @@ Editor.Panel.extend({
                     }
                 },
                 // 获取文件个数
-                _getFileNum(url){
+                _getFileNum: function (url){
                     var i = 0;
                     var lookDir = function (fileUrl) {
                         var files = fs.readdirSync(fileUrl);//读取该文件夹
@@ -338,7 +357,7 @@ Editor.Panel.extend({
                     lookDir(url);
                     return i;
                 },
-                _delDir(rootFile){
+                _delDir: function (rootFile){
                     var self = this;
                     //删除所有的文件(将所有文件夹置空)
                     var emptyDir = function (fileUrl) {
@@ -380,7 +399,7 @@ Editor.Panel.extend({
                     rmEmptyDir(rootFile);
                 },
                 // 拷贝文件到目录
-                _copyFileToDesDir(file, desDir){
+                _copyFileToDesDir: function (file, desDir){
                     if (this._getFileIsExist(file)) {
                         var readable = fs.createReadStream(file);// 创建读取流
                         var arr = file.split('\\')
@@ -392,7 +411,7 @@ Editor.Panel.extend({
                     }
                 },
                 // 拷贝文件夹
-                _copySourceDirToDesDir(source, des){
+                _copySourceDirToDesDir: function (source, des){
                     var self = this;
                     // 在复制目录前需要判断该目录是否存在，不存在需要先创建目录
                     var exists = function (src, dst, callback) {
@@ -446,7 +465,7 @@ Editor.Panel.extend({
                     exists(source, des, copy);
                 },
                 // 选择资源文件目录
-                onSelectSrcDir(event){
+                onSelectSrcDir: function (event){
                     let res = Editor.Dialog.openFile({
                         title: "选择Src目录",
                         defaultPath: Editor.projectInfo.path,
@@ -462,7 +481,7 @@ Editor.Panel.extend({
                         this._saveConfig();
                     }
                 },
-                onSelectResDir(){
+                onSelectResDir: function (){
                     let res = Editor.Dialog.openFile({
                         title: "选择Res目录",
                         defaultPath: Editor.projectInfo.path,
@@ -474,7 +493,7 @@ Editor.Panel.extend({
                     }
                 },
                 // 选择projManifest文件
-                onOpenResourceDir(){
+                onOpenResourceDir: function (){
                     if (!fs.existsSync(this.resourceRootDir)) {
                         this._addLog("目录不存在：" + this.resourceRootDir);
                         return;
@@ -482,7 +501,7 @@ Editor.Panel.extend({
                     Electron.shell.showItemInFolder(this.resourceRootDir);
                     Electron.shell.beep();
                 },
-                onOpenManifestDir(){
+                onOpenManifestDir: function (){
                     if (!fs.existsSync(this.genManifestDir)) {
                         this._addLog("目录不存在：" + this.genManifestDir);
                         return;
@@ -491,7 +510,7 @@ Editor.Panel.extend({
                     Electron.shell.beep();
                 },
                 // 选择生成Manifest的目录
-                onSelectGenManifestDir(){
+                onSelectGenManifestDir: function (){
                     let res = Editor.Dialog.openFile({
                         title: "选择生成Manifest目录",
                         defaultPath: Editor.projectInfo.path,
@@ -502,7 +521,7 @@ Editor.Panel.extend({
                         this._saveConfig();
                     }
                 },
-                onSelectGenServerRootDir(){
+                onSelectGenServerRootDir: function (){
                     let res = Editor.Dialog.openFile({
                         title: "选择部署的服务器根目录",
                         defaultPath: Editor.projectInfo.path,
@@ -513,7 +532,7 @@ Editor.Panel.extend({
                         this._saveConfig();
                     }
                 },
-                onSelectResourceRootDir(){
+                onSelectResourceRootDir: function (){
                     let res = Editor.Dialog.openFile({
                         title: "选择构建后的根目录",
                         defaultPath: Editor.projectInfo.path,
@@ -528,7 +547,7 @@ Editor.Panel.extend({
         });
         this._initTest();
     },
-    _initTest(){
+    _initTest: function (){
         //console.log("1111111");
         //Editor.Profile.load('profile://local/builder.json', (err, profile) => {
         //    console.log("1111");

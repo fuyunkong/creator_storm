@@ -1,19 +1,19 @@
 'use strict';
 
 module.exports = {
-    load () {
+    load: function () {
         // 当 package 被正确加载的时候执行
     },
 
-    unload () {
+    unload: function () {
         // 当 package 被正确卸载的时候执行
     },
 
     messages: {
-        'test'(event, args){
+        'test': function(event, args){
             Editor.log(args);
         },
-        'showPanel'(){
+        'showPanel': function(){
             Editor.Panel.open('hot-update-tools');
         }
     },
