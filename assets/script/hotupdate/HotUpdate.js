@@ -146,6 +146,31 @@ cc.Class({
         this._am = new jsb.AssetsManager(this.manifestUrl, storagePath);
         this._am.retain();
 
+ 	// Setup your own version compare handler, versionA and B is versions in string
+        // if the return value greater than 0, versionA is greater than B,
+        // if the return value equals 0, versionA equals to B,
+        // if the return value smaller than 0, versionA is smaller than B.
+        this._am.setVersionCompareHandle(function (versionA, versionB) {
+            cc.log("JS Custom Version Compare: version A is " + versionA + ', version B is ' + versionB);
+            var vA = versionA.split('.');
+            var vB = versionB.split('.');
+            for (var i = 0; i < vA.length; ++i) {
+                var a = parseInt(vA[i]);
+                var b = parseInt(vB[i] || 0);
+                if (a === b) {
+                    continue;
+                }
+                else {
+                    return a - b;
+                }
+            }
+            if (vB.length > vA.length) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        });
         this._needUpdate = false;
         if (this._am.getLocalManifest().isLoaded())
         {

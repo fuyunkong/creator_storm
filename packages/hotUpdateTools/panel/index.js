@@ -79,18 +79,21 @@ Editor.Panel.extend({
                         }
                     });
 
-                    //自定义写入文件
-	                let configHot = Editor.url('db://assets/resources'+ "\\hotUpdateConfig.json");
-	                var hotData ={
-		                version: this.version,
-		                versionname: this.versionname,
-	                };
-	                fs.writeFile(configHot, JSON.stringify(hotData), function (error) {
-		                if (!error) {
-			                console.log("保存配置成功!");
-		                }
-	                });
+
                 },
+		            _self_config: function (){
+			            //自定义写入文件
+			            let configHot = Editor.url('db://assets/resources'+ "\\hotUpdateConfig.json");
+			            var hotData ={
+				            version: this.version,
+				            versionname: this.versionname,
+			            };
+			            fs.writeFile(configHot, JSON.stringify(hotData), function (error) {
+				            if (!error) {
+					            console.log("保存配置成功!");
+				            }
+			            });
+		            },
                 _initPluginCfg: function (){
                     let configFilePath = this._getAppCfgPath();
                     var b = this._getFileIsExist(configFilePath);
@@ -120,6 +123,11 @@ Editor.Panel.extend({
                         this._addLog("版本号未填写");
                         return;
                     }
+		                if (!this.versionname || this.versionname.length <= 0) {
+			                this._addLog("版本名称未填写");
+			                return;
+		                }
+		                this._self_config();
                     if (!this.serverRootDir || this.serverRootDir.length <= 0) {
                         this._addLog("服务器地址未填写");
                         return;
