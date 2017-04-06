@@ -44,7 +44,7 @@ cc.Class({
                 cc.eventManager.removeListener(this._checkListener);
                 break;
             default:
-	              this.toStart();
+	              //this.toStart();
                 break;
         }
     },

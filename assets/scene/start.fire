@@ -43,7 +43,7 @@
     "_globalZOrder": 0,
     "_tag": -1,
     "_opacityModifyRGB": false,
-    "_id": "d8eed147-4581-4dd6-91fe-cd5159466da2",
+    "_id": "2bc9f6f3-3337-4115-8e60-c8ce9690d4ec",
     "autoReleaseAssets": false
   },
   {
@@ -69,8 +69,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 960,
+      "height": 640
     },
     "_children": [],
     "_rotationX": 0,
@@ -88,7 +88,7 @@
     "_globalZOrder": 0,
     "_tag": -1,
     "_opacityModifyRGB": false,
-    "_id": "58d4duo65hFkKkB0urIcxc2",
+    "_id": "1478dmn2SVAOIDh2ENK/v/r",
     "_active": true,
     "_components": [
       {
@@ -137,7 +137,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 137.82999999999998,
+      "width": 188.96,
       "height": 50
     },
     "_children": [],
@@ -147,8 +147,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 429,
-      "y": 518
+      "x": 452,
+      "y": 574
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -156,7 +156,7 @@
     "_globalZOrder": 0,
     "_tag": -1,
     "_opacityModifyRGB": false,
-    "_id": "b6fe4A57utBUrkVzsed78J1",
+    "_id": "4bf107hYRJEB6g5Vt+QmhQf",
     "_active": true,
     "_components": [
       {
@@ -174,7 +174,7 @@
       "__id__": 4
     },
     "_enabled": true,
-    "_N$string": "<color=#00ff00>test</c><color=#0fffff>Text</color>",
+    "_N$string": "<color=#00ff00>start</c> <color=#0fffff>game</color>",
     "_N$horizontalAlign": 0,
     "_N$fontSize": 40,
     "_N$font": null,

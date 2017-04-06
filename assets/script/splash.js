@@ -44,14 +44,14 @@ cc.Class({
     },
 
 		toStart:function () {
-			var delay = cc.delayTime(1);
+			var delay = cc.delayTime(2);
 			var finish = new cc.CallFunc(this.beginScene, this);
 			var seq = new cc.Sequence(delay, finish);
 			this.node.runAction(seq);
 
 		},
 		beginScene:function () {
-			cc.director.loadScene("test1");
+			cc.director.loadScene("test222");
 		},
 
     // called every frame, uncomment this function to activate update callback

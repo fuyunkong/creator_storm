@@ -953,7 +953,7 @@
     "_actualFontSize": 28,
     "_fontSize": 28,
     "_lineHeight": 40,
-    "_enableWrapText": false,
+    "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_N$string": "version",
@@ -1109,8 +1109,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 226,
-      "y": 353
+      "x": 660,
+      "y": 228
     },
     "_skewX": 0,
     "_skewY": 0,

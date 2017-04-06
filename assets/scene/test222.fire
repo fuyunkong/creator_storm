@@ -43,7 +43,7 @@
     "_globalZOrder": 0,
     "_tag": -1,
     "_opacityModifyRGB": false,
-    "_id": "96bb072d-06f1-43c7-aba6-b2fc09f8c633",
+    "_id": "020a7ab5-e148-4ae4-8747-11209ac0e624",
     "autoReleaseAssets": false
   },
   {
@@ -88,7 +88,7 @@
     "_globalZOrder": 0,
     "_tag": -1,
     "_opacityModifyRGB": false,
-    "_id": "ec92bV8G3lHqKN+wqnKEvIG",
+    "_id": "12366J5dM9N9apzKPLPnU2G",
     "_active": true,
     "_components": [
       {
@@ -137,7 +137,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 365.06000000000006,
+      "width": 204.57,
       "height": 50
     },
     "_children": [],
@@ -147,8 +147,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 494,
-      "y": 538
+      "x": 461,
+      "y": 515
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -156,7 +156,7 @@
     "_globalZOrder": 0,
     "_tag": -1,
     "_opacityModifyRGB": false,
-    "_id": "af674xb2F5Mo60VVxAxAnrU",
+    "_id": "fb442viGf1MKaTDkz1qNjcg",
     "_active": true,
     "_components": [
       {
@@ -174,7 +174,7 @@
       "__id__": 4
     },
     "_enabled": true,
-    "_N$string": " <color=#0fffff> 炸金花</color>  <color=#00ff00>@逍遥几世</c>",
+    "_N$string": "<color=#00ff00>test222</c><color=#0fffff>Text</color>",
     "_N$horizontalAlign": 0,
     "_N$fontSize": 40,
     "_N$font": null,

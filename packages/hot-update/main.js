@@ -22,7 +22,7 @@ module.exports = {
                 }
 
                 var newStr =
-                    "function boot () {\n"+
+                    "(function () {\n"+
                     "\n"+
                     "    if (cc.sys.isNative) { \n" +
                     "        var hotUpdateSearchPaths = cc.sys.localStorage.getItem('HotUpdateSearchPaths'); \n" +
@@ -31,7 +31,7 @@ module.exports = {
                     "        }\n" +
                     "    }";
 
-                var newData = data.replace("function boot () {", newStr);
+                var newData = data.replace("(function () {", newStr);
                 Fs.writeFile(url, newData, function (error) {
                     if (err) {
                         throw err;
