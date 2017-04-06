@@ -13,7 +13,11 @@ cc.Class({
         percent: {
             default: null,
             type: cc.Label
-        }
+        },
+	    tostart: {
+		    default: null,
+		    type: cc.Node
+	    }
     },
 
     checkCb: function (event) {
@@ -32,6 +36,7 @@ cc.Class({
             case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
                 cc.log("Already up to date with the latest remote version.");
                 cc.eventManager.removeListener(this._checkListener);
+	              this.toStart();
                 break;
             case jsb.EventAssetsManager.NEW_VERSION_FOUND:
                 this._needUpdate = true;
@@ -39,6 +44,7 @@ cc.Class({
                 cc.eventManager.removeListener(this._checkListener);
                 break;
             default:
+	              this.toStart();
                 break;
         }
     },
@@ -137,6 +143,7 @@ cc.Class({
     onLoad: function () {
         // Hot update is only available in Native build
         if (!cc.sys.isNative) {
+            this.toStart();
             return;
         }
         var storagePath = ((jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'blackjack-remote-asset');
@@ -183,5 +190,10 @@ cc.Class({
 
     onDestroy: function () {
         this._am && this._am.release();
-    }
+    },
+	toStart:function () {
+        if(this.tostart){
+	        this.tostart.getComponent("splash").toStart();
+        }
+   },
 });

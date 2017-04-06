@@ -1,6 +1,11 @@
 {
   "collision-matrix": [
     [
+      true,
+      false
+    ],
+    [
+      false,
       true
     ]
   ],
@@ -10,14 +15,15 @@
   "fit-height": true,
   "fit-width": false,
   "group-list": [
-    "default"
+    "default",
+    "New Group"
   ],
   "simulator-orientation": false,
   "simulator-resolution": {
     "height": 640,
     "width": 960
   },
-  "start-scene": "current",
+  "start-scene": "9cc9053c-fd0e-4fde-809d-6d921d51f465",
   "use-customize-simulator": false,
   "use-project-simulator-setting": false
 }
