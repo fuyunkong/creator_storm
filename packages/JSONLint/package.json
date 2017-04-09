@@ -1,0 +1,20 @@
+{
+	"name": "json-lint",
+	"version": "0.0.1",
+	"description": "JSON 格式化校验工具",
+	"author": "LiuYD",
+	"main": "main.js",
+	"main-menu": {
+		"i18n:MAIN_MENU.package.title/JSONLint": {
+			"message": "json-lint:open"
+		}
+	},
+
+	"panel": {
+		"main": "panel/JSON.js",
+		"type": "dockable",
+		"title": "JSON 格式化校验工具",
+		"width": 900,
+		"height": 600
+	}
+}
