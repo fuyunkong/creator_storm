@@ -15,7 +15,8 @@ cc.Class({
         // },
         // ...
 	        lab_version:cc.Label,
-	        lab_versionname:cc.Label
+	        lab_versionname:cc.Label,
+	        start_scene:''
     },
 
     // use this for initialization
@@ -51,7 +52,10 @@ cc.Class({
 
 		},
 		beginScene:function () {
-			cc.director.loadScene("test222");
+    	if(this.start_scene != ''){
+		    cc.director.loadScene(this.start_scene);
+	    }
+
 		},
 
     // called every frame, uncomment this function to activate update callback

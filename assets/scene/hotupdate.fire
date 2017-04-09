@@ -1046,7 +1046,8 @@
     },
     "lab_versionname": {
       "__id__": 28
-    }
+    },
+    "start_scene": "zhajinhua"
   },
   {
     "__type__": "cc.Node",
