@@ -1047,7 +1047,7 @@
     "lab_versionname": {
       "__id__": 28
     },
-    "start_scene": "zhajinhua"
+    "start_scene": "start"
   },
   {
     "__type__": "cc.Node",
