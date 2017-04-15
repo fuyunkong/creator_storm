@@ -3,7 +3,7 @@ let fsmData = {
 initial: 'nope',
 //please select the enter-state here ↓
 events: [
-//{"name":"startup","from":"nope","to":/*enter-state*/},
+{"name":"startup","from":"nope","to":"room-front"},
 {"name":"right","from":"room-front","to":"room-right"},
 {"name":"left","from":"room-front","to":"room-left"},
 {"name":"left","from":"room-right","to":"room-front"},
