@@ -2,25 +2,20 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //    default: null,      // The default value will be used only when the component attaching
-        //                           to a node for the first time
-        //    url: cc.Texture2D,  // optional, default is typeof default
-        //    serializable: true, // optional, default is true
-        //    visible: true,      // optional, default is true
-        //    displayName: 'Foo', // optional
-        //    readonly: false,    // optional, default is false
-        // },
-        // ...
+       _numLabel: null,
+       _num: 0,
     },
 
-    // use this for initialization
-    onLoad: function () {
-
+    onLoad() {
+        this._numLabel = this.getComponent(cc.Label);
+        this._numLabel.string = this._num;
+        this.node.on('touchstart',this.onTouchStart,this)
     },
 
-    // called every frame, uncomment this function to activate update callback
-    // update: function (dt) {
+    onTouchStart(){
+        this._num = (this._num + 1) % 10;
+        this._numLabel.string = this._num;
+    }
 
-    // },
+
 });
