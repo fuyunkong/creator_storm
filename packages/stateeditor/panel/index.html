@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>stateeditor</title>
+    <script type="text/javascript" src="../node_modules/vis/dist/vis.js"></script>
+    <script type="text/javascript" src="../node_modules/storejs/dist/store.js"></script>
+    <!--<script type="text/javascript" src="../node_modules/require/bin/require-command.js"></script>-->
+    <!--<script type="text/javascript" src="../node_modules/exports/lib/exports.js"></script>-->
+    <!--<script type="text/javascript" src="../node_modules/util/util.js"></script>-->
+    <link href="../node_modules/vis/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        #mynetwork {
+            width: 1000px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+stateeditor hello world
+
+<p>
+    Create a simple network with some nodes and edges.
+</p>
+<Button onclick="add()">add</Button>
+<Button onclick="load()">load</Button>
+<Button onclick="save()">save</Button>
+
+<div id="mynetwork"></div>
+
+<script type="text/javascript">
+
+	var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network;
+	// create an array with nodes
+		nodesArray = [
+			{id: 1, label: 'Node 1',x:0,y:0},
+			{id: 2, label: 'Node 2',x:0,y:0},
+			{id: 3, label: 'Node 3',x:0,y:0},
+			{id: 4, label: 'Node 4',x:0,y:0},
+			{id: 5, label: 'Node 5',x:0,y:0}
+		];
+		nodes = new vis.DataSet(nodesArray);
+
+		// create an array with edges
+		edgesArray = [
+			{from: 1, to: 3},
+			{from: 1, to: 2},
+			{from: 2, to: 4},
+			{from: 2, to: 5}
+		];
+		edges = new vis.DataSet(edgesArray);
+
+
+		// create a network
+	var container = document.getElementById('mynetwork');
+	var data = {
+		nodes: nodes,
+		edges: edges
+	};
+	var options = {
+		edges: {
+			smooth: {
+				type: "vertical",
+				roundness: 0.45
+			}
+		},
+		nodes: {
+			shape: 'circle',
+			size: 200
+		},
+		physics: {
+			enabled: false
+		},
+		interaction: {
+			navigationButtons: true,
+			keyboard: true
+		}
+	}
+	var network = new vis.Network(container, data, options);
+
+	network.on("click", function (params) {
+		params.event = "[original event]";
+//	  console.log(JSON.stringify(params, null, 4));
+
+	});
+
+	network.on("doubleClick", function (params) {
+		params.event = "doubleClick";
+		console.log(JSON.stringify(params, null, 4));
+	});
+
+	network.on("select", function (params) {
+//	  console.log('select Event:', params);
+		console.log(toJSON(params));
+	});
+
+	//  network.on("selectNode", function (params) {
+	//	  console.log('selectNode Event:', params);
+	//  });
+	//
+	//  network.on("selectEdge", function (params) {
+	//	  console.log('selectEdge Event:', params);
+	//  });
+
+	//  network.on("deselectNode", function (params) {
+	//	  console.log('deselectNode Event:', params);
+	//  });
+
+	function add() {
+//    console.log("add");
+//    var obj ={id: nodes.length+1, label: 'Node '+nodes.length+1};
+//    nodes._data[nodes.length+1]=obj;
+//    nodes.length+=1;
+//    this.draw();
+		var id = nodes.length+1
+		nodes.add({id: id+"", label: 'Node '+id});
+//        Editor.Ipc.sendToMain("stateeditor:clicked","",function(e,result){
+//
+//        });
+        //store("test","tank");
+        console.log(store("test"));
+
+	}
+	function load() {
+		console.log("load");
+//		console.log(JSON.stringify(nodes._data));
+//		console.log(JSON.stringify(nodes));
+//		console.log(JSON.stringify(edges._data));
+			var obj = JSON.parse(store("ww"));
+			console.log(obj);
+			nodesArray = obj;
+			nodes.clear();
+			edges.clear();
+			nodes.add(nodesArray);
+			edges.add(edgesArray);
+			//draw();
+
+	}
+	function save() {
+//	  console.log("save");
+//	  console.log(nodes._data);
+//	  console.log(nodes);
+//	  console.log(edges._data);
+//		console.log(JSON.stringify(nodes.get(), null, 4));
+//		console.log(JSON.stringify(edges.get(), null, 4));
+//      console.log(network);
+//      nodesArray =network.body.data.nodes;
+      for(var index in network.body.nodes){
+      	console.log(index);
+      	console.log(network.body.nodes[index]);
+      	console.log(nodesArray[index-1]);
+	      nodesArray[index-1].x=network.body.nodes[index].x;
+	      nodesArray[index-1].y=network.body.nodes[index].y;
+      }
+			console.log(nodesArray);
+      var json = toJSON(nodesArray);
+//			console.log(json); //depth:null 展开全部层级
+			store("ww",json);
+	}
+	function draw() {
+		if (network !== null) {
+			network.destroy();
+			network = new vis.Network(container, data, options);
+		}
+	}
+	function toJSON(obj) {
+		return JSON.stringify(obj, null, 4);
+	}
+</script>
+
+</body>
+</html>

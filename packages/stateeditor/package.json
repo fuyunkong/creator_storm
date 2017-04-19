@@ -1,0 +1,22 @@
+{
+  "name": "stateeditor",
+  "version": "0.0.1",
+  "description": "The package template for getting started.",
+  "author": "Cocos Creator",
+  "main": "main.js",
+  "main-menu": {
+    "i18n:MAIN_MENU.package.title/stateeditor/open": {
+      "message": "stateeditor:open"
+    },
+    "i18n:MAIN_MENU.package.title/stateeditor/hello": {
+      "message": "stateeditor:say-hello"
+    }
+  },
+  "panel": {
+    "main": "panel/index.html",
+    "type": "simple",
+    "title": "状态机测试",
+    "width": "100%",
+    "height": "100%"
+  }
+}
