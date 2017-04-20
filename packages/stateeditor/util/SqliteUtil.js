@@ -78,7 +78,7 @@ var SqliteUtil = {
 }
 
 
-
+module.exports = SqliteUtil;
 
 
 // 测试功能

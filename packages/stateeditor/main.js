@@ -1,5 +1,6 @@
 'use strict';
 
+
 module.exports = {
   load () {
     // execute when package loaded
@@ -21,9 +22,16 @@ module.exports = {
      // Editor.Ipc.sendToPanel('stateeditor', 'stateeditor:hello');
     },
     'clicked' () {
-	    var gold =cc.sys.localStorage.getItem("gold",0);
-	    Editor.log(gold);
-        Editor.log('Button clicked!');
-    }
+
+    },
+	  db_set:function (event,key,obj) {
+		  var db_util = require("./util/SqliteUtil");
+    	
+
+
+	  },
+	  db_get:function (key,callback) {
+
+	  }
   },
 };
