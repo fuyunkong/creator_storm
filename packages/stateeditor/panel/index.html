@@ -6,6 +6,7 @@
     <title>stateeditor</title>
     <script type="text/javascript" src="../node_modules/vis/dist/vis.js"></script>
     <script type="text/javascript" src="../node_modules/storejs/dist/store.js"></script>
+    <script type="text/javascript" src="../node_modules/store/store.js"></script>
     <!--<script type="text/javascript" src="../node_modules/require/bin/require-command.js"></script>-->
     <!--<script type="text/javascript" src="../node_modules/exports/lib/exports.js"></script>-->
     <!--<script type="text/javascript" src="../node_modules/util/util.js"></script>-->
@@ -129,7 +130,7 @@ stateeditor hello world
 //		console.log(JSON.stringify(nodes._data));
 //		console.log(JSON.stringify(nodes));
 //		console.log(JSON.stringify(edges._data));
-			var obj = JSON.parse(store("ww"));
+			var obj = JSON.parse(store.get("ww"));
 			console.log(obj);
 			nodesArray = obj;
 			nodes.clear();
@@ -158,7 +159,7 @@ stateeditor hello world
 			console.log(nodesArray);
       var json = toJSON(nodesArray);
 //			console.log(json); //depth:null 展开全部层级
-			store("ww",json);
+			store.set("ww",json);
 	}
 	function draw() {
 		if (network !== null) {

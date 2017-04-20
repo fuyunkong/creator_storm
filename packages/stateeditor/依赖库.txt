@@ -1,0 +1,4 @@
+
+sequelize
+
+cnpm install --save sqlite3

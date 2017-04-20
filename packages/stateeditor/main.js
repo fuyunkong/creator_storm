@@ -23,8 +23,7 @@ module.exports = {
     'clicked' () {
 	    var gold =cc.sys.localStorage.getItem("gold",0);
 	    Editor.log(gold);
-
-      Editor.log('Button clicked!');
+        Editor.log('Button clicked!');
     }
   },
 };
