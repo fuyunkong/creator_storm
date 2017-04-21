@@ -17,7 +17,10 @@ var SqlUtil = {
 
 			var target = {};
 			target.name = "instance";
-			target.db_name=Editor.url('packages://stateeditor/config/db_data.db', 'utf8');
+			target.IsEditor = false;
+
+			target.db_name='../config/db_data.db'
+			// target.db_name=Editor.url('packages://stateeditor/config/db_data.db', 'utf8');
 			target.filebuffer = fs.readFileSync(target.db_name);
 			target.db = new SQL.Database(target.filebuffer);
 
@@ -28,7 +31,7 @@ var SqlUtil = {
 				}
 				var obj={};
 				var res = target.db.exec("SELECT * FROM 'maps' limit 1");
-				 console.log(res);
+				 // console.log(res);
 				 if(res){
 					 var result = res[0];
 					 // console.log(result);
@@ -46,11 +49,11 @@ var SqlUtil = {
 					return;
 				}
 				console.log("test creator");
-				var sqlstr = "CREATE TABLE hello (a int, b char);";
-				sqlstr += "INSERT INTO hello VALUES (0, 'hello');";
+				// var sqlstr = "CREATE TABLE hello (a int, b char);";
+				var sqlstr = "INSERT INTO hello VALUES (0, 'hello');";
 				sqlstr += "INSERT INTO hello VALUES (1, 'world');";
 				target.db.run(sqlstr);
-				target.log("保存配置成功!");
+
 				target.save();
 				// Run the query without returning anything
 
@@ -58,18 +61,113 @@ var SqlUtil = {
 
 
 			}
-			target.save = function () {
+			target.save = function (msg,callback) {
 				var data = target.db.export();
 				var buffer = new Buffer(data);
 				fs.writeFile(target.db_name, buffer, function (error) {
+					var obj = {};
 					if (!error) {
-						target.log("保存配置成功!");
+						obj.result=1;
+						msg = msg +"成功!"
+						target.log(msg);
+					}else{
+						obj.result=0;
+						msg = msg +"失败!"
+						target.error(msg);
+					}
+
+					if(callback){
+						obj.msg= msg;
+						callback(obj);
 					}
 				});
 			}
 			target.log = function (msg) {
-				Editor.info(msg);
+				if(target.IsEditor){
+					Editor.info(msg);
+				}else{
+					console.log(msg);
+				}
+
 			}
+			target.error = function (msg) {
+
+				if(target.IsEditor){
+					Editor.error(msg);
+				}else{
+					console.log(msg);
+				}
+			}
+			//插入一条数据
+			target.add = function (key,value,callback) {
+
+				var sqlstr = "insert into maps (key, value) values ('" +
+					key +
+					"', '" +
+					value +
+					"');";
+				target.db.run(sqlstr);
+				target.save("添加",callback);
+			};
+			//移除key
+			target.remove = function (key,callback) {
+				var sqlstr ="delete from maps where key='" +
+					key +
+					"';";
+				target.db.run(sqlstr);
+				target.save("删除",callback);
+			}
+			//获取key对应的value
+			target.get = function (key,callback) {
+				if(!target.db){
+					target.log("初始化...");
+					return;
+				}
+				var obj={};
+
+				var res = target.db.exec("select * from maps where key='" +
+					key +
+					"' limit 1;");
+				// console.log(res);
+				if(res[0]){
+					var result = res[0];
+					// console.log(result);
+					for(var i=0;i<result.columns.length;i++){
+						obj[result.columns[i]]=result.values[0][i];
+					}
+				}else{
+					obj=undefined;
+				}
+				if(callback){
+					callback(obj);
+				}
+
+				// console.log(obj);
+				return obj;
+			}
+			//设置key
+			target.set = function (key,value,callback) {
+				function check(obj) {
+					if(obj){
+
+						target.update(key,value,callback);
+
+					}else{
+						target.add(key,value,callback);
+					}
+				}
+				target.get(key,check);
+			};
+			//更新key
+			target.update = function (key,value,callback) {
+				var sqlstr ="UPDATE maps set value='" +
+					value +
+					"' where key='" +
+					key +
+					"';";
+				target.db.run(sqlstr);
+				target.save("更新",callback);
+			};
 
 			SqlUtil_instance = target;
 
@@ -85,3 +183,16 @@ var util = SqlUtil.getInstance();
 
 // console.log(util.testGetObj().key+"--------"+util.testGetObj().value);
 // console.log(util.testCreat());
+
+// util.add("tests","tests");
+// util.remove("tests");
+
+function print(obj) {
+	console.log(obj);
+}
+// var obj = util.get("tests",print);
+
+ // util.update("tests","dddddd",print);
+// util.set("testws2","www222w",print);
+util.get("testws2q",print);
+
