@@ -93,7 +93,7 @@ console.log("-----------------");
 
 var util = SqliteUtil.getInstance();
 
-// util.set("test","wewewewewew",printObj);
+util.set("test1","wewewewewew",printObj);
 // util.get("test",printObj);
 // util.remove("test");
 function sleep(numberMillis) {
