@@ -3,7 +3,7 @@
  * 单例模版
  */
 var fs = require('fs');
-var SQL = require('../panel/js/sql.js');
+var SQL = require('../lib/sql.js');
 
 // var fs = require('fs');
 // var SQL = require('./panel/js/sql.js');
@@ -16,11 +16,11 @@ var SqlUtil = {
 		if(SqlUtil_instance === undefined){
 
 			var target = {};
-			target.name = "instance";
-			target.IsEditor = false;
+			target.name = "maps";
+			target.IsEditor = true;
 
-			target.db_name='../config/db_data.db'
-			// target.db_name=Editor.url('packages://stateeditor/config/db_data.db', 'utf8');
+			// target.db_name='../config/db_data.db'
+			target.db_name=Editor.url('packages://stateeditor/config/db_data.db', 'utf8');
 			target.filebuffer = fs.readFileSync(target.db_name);
 			target.db = new SQL.Database(target.filebuffer);
 
@@ -30,7 +30,9 @@ var SqlUtil = {
 					return;
 				}
 				var obj={};
-				var res = target.db.exec("SELECT * FROM 'maps' limit 1");
+				var res = target.db.exec("SELECT * FROM '" +
+					target.name +
+					"' limit 1");
 				 // console.log(res);
 				 if(res){
 					 var result = res[0];
@@ -101,7 +103,9 @@ var SqlUtil = {
 			//插入一条数据
 			target.add = function (key,value,callback) {
 
-				var sqlstr = "insert into maps (key, value) values ('" +
+				var sqlstr = "insert into " +
+					target.name +
+					" (key, value) values ('" +
 					key +
 					"', '" +
 					value +
@@ -111,7 +115,9 @@ var SqlUtil = {
 			};
 			//移除key
 			target.remove = function (key,callback) {
-				var sqlstr ="delete from maps where key='" +
+				var sqlstr ="delete from " +
+					target.name +
+					" where key='" +
 					key +
 					"';";
 				target.db.run(sqlstr);
@@ -125,7 +131,9 @@ var SqlUtil = {
 				}
 				var obj={};
 
-				var res = target.db.exec("select * from maps where key='" +
+				var res = target.db.exec("select * from " +
+					target.name +
+					" where key='" +
 					key +
 					"' limit 1;");
 				// console.log(res);
@@ -160,7 +168,9 @@ var SqlUtil = {
 			};
 			//更新key
 			target.update = function (key,value,callback) {
-				var sqlstr ="UPDATE maps set value='" +
+				var sqlstr ="UPDATE " +
+					target.name +
+					" set value='" +
 					value +
 					"' where key='" +
 					key +
