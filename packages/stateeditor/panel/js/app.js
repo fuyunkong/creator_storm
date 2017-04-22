@@ -2,6 +2,13 @@
  * Created by wuliang on 2017/4/20.
  */
 
+var app = angular.module("myApp", []);
+app.controller('userCtrl', ['$scope',
+	function FishAngular($scope) {
+		$scope.name = 'anglarjs';
+		}
+]);
+
 var TO_CREARTOR = true; // 内部
 var nodes,edges, network;
 // create an array with nodes

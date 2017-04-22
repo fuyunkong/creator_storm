@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
 
     <meta charset="UTF-8">
-    <title>stateeditor</title>
+    <title>状态编辑器</title>
     <script type="text/javascript" src="../node_modules/vis/dist/vis.js"></script>
     <!--<script type="text/javascript" src="../node_modules/storejs/dist/store.js"></script>-->
     <script type="text/javascript" src="../node_modules/store/store.js"></script>
     <script type="text/javascript" src="js/sql.js"></script>
+
+    <!--<script src="../lib/jquery.min.js"></script>-->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!--<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
+
+
+
 
 
 
@@ -22,17 +29,28 @@
         }
     </style>
 </head>
-<body>
+<body ng-controller="userCtrl">
 stateeditor hello world
-
+{{name}}
+<h1>Hello, world!</h1>
 <p>
     Create a simple network with some nodes and edges.
 </p>
-<Button onclick="add()">add</Button>
-<Button onclick="load()">load</Button>
-<Button onclick="save()">save</Button>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-default" onclick="add()">add</button>
+    <button type="button" class="btn btn-default" onclick="load()">load</button>
+    <button type="button" class="btn btn-default" onclick="save()">save</button>
+</div>
+<!--<Button onclick="add()">add</Button>-->
+<!--<Button onclick="load()">load</Button>-->
+<!--<Button onclick="save()">save</Button>-->
 
 <div id="mynetwork"></div>
+
+
+<!-- angularjs库 -->
+<script src="../lib/angularjs.js"></script>
 
 <script type="text/javascript" src="js/app.js"></script>
 
@@ -72,6 +90,8 @@ stateeditor hello world
 
 
 </script>
+
+
 
 </body>
 </html>
