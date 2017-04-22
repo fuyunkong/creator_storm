@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="myApp">
+<html lang="en" ng-app="app">
 <head>
 
     <meta charset="UTF-8">
@@ -23,30 +23,56 @@
 
     <style type="text/css">
         #mynetwork {
-            width: 1000px;
-            height: 600px;
-            border: 1px solid lightgray;
+            width: 100%;
+            height: 650px;
+            border: 2px solid lightgray;
         }
     </style>
 </head>
-<body ng-controller="userCtrl">
-stateeditor hello world
-{{name}}
-<h1>Hello, world!</h1>
-<p>
-    Create a simple network with some nodes and edges.
-</p>
+<body ng-controller="app_control">
+<div class="container">
 
-<div class="btn-group">
-    <button type="button" class="btn btn-default" onclick="add()">add</button>
-    <button type="button" class="btn btn-default" onclick="load()">load</button>
-    <button type="button" class="btn btn-default" onclick="save()">save</button>
+    <h3><span class="label label-default">功能说明</span></h3>
+
+    <div class="row">
+
+        <div class="col-md-2" style="background-color: #fff0ff;box-shadow:
+         inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+
+            <h4><span class="label label-default">功能说明</span></h4>
+
+        </div>
+
+        <div class="col-md-10" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+
+
+            <h5><span class="label label-default">功能说明</span></h5>
+            <div class="col-md-12" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+                <!--<h5><span class="label label-default">功能说明</span></h5>-->
+                <div class="col-md-4 btn-group" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+                    <button type="button" class="btn btn-info" onclick="node_add()">add</button>
+                    <button type="button" class="btn btn-info" onclick="node_load()">load</button>
+                    <button type="button" class="btn btn-info" onclick="node_save()">save</button>
+                    <button type="button" class="btn btn-info" ng-click="toJson(data)">toJson</button>
+                </div>
+
+
+            </div>
+            <div class="col-md-12" >
+                <div id="mynetwork"></div>
+            </div>
+
+
+
+
+            </div>
+    </div>
+
 </div>
-<!--<Button onclick="add()">add</Button>-->
-<!--<Button onclick="load()">load</Button>-->
-<!--<Button onclick="save()">save</Button>-->
 
-<div id="mynetwork"></div>
+
+
+
 
 
 <!-- angularjs库 -->
@@ -66,21 +92,28 @@ stateeditor hello world
 
 	network.on("doubleClick", function (params) {
 		params.event = "doubleClick";
-		console.log(JSON.stringify(params, null, 4));
+//		console.log(JSON.stringify(params, null, 4));
+		$app_control.toJson(params);
 	});
 
-	network.on("select", function (params) {
-//	  console.log('select Event:', params);
-		console.log(toJSON(params));
-	});
+//	network.on("select", function (params) {
+////	  console.log('select Event:', params);
+////		console.log(toJSON(params));
+//	});
 
-	//  network.on("selectNode", function (params) {
-	//	  console.log('selectNode Event:', params);
-	//  });
+	  network.on("selectNode", function (params) {
+		  console.log('selectNode:', params);
+//		  console.log(JSON.stringify(params, null, 4));
+		  var obj = params.nodes[0];
+		  console.log(JSON.stringify(obj));
+	  });
 	//
-	//  network.on("selectEdge", function (params) {
-	//	  console.log('selectEdge Event:', params);
-	//  });
+	  network.on("selectEdge", function (params) {
+		  console.log('selectEdge:', params);
+//		  console.log(JSON.stringify(params, null, 4));
+
+
+	  });
 
 	//  network.on("deselectNode", function (params) {
 	//	  console.log('deselectNode Event:', params);

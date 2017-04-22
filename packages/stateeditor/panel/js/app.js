@@ -2,14 +2,9 @@
  * Created by wuliang on 2017/4/20.
  */
 
-var app = angular.module("myApp", []);
-app.controller('userCtrl', ['$scope',
-	function FishAngular($scope) {
-		$scope.name = 'anglarjs';
-		}
-]);
 
-var TO_CREARTOR = true; // 内部
+
+var TO_CREARTOR = null; // 内部 true null
 var nodes,edges, network;
 // create an array with nodes
 var v_data={
@@ -62,23 +57,24 @@ var options = {
 }
 
 
-function add() {
-	var id = nodes.length+1
-	var obj = {id: id+"", label: 'Node '+id,x:0,y:0};
+function node_add() {
+	var id = nodes.length+1;
+	var obj = {id: id+"", label: 'Node '+id,x:0,y:0,des:"节点"+id};
 	v_data.nodesArray.push(obj);
 	nodes.add(obj);
 }
 function load_callback(obj) {
-	v_data = obj;
+	angular.copy(v_data, obj); //深拷贝
+	// v_data = angular.copy(obj);
 	nodes.clear();
 	edges.clear();
 	nodes.add(v_data.nodesArray);
 	edges.add(v_data.edgesArray);
 }
-function load() {
+function node_load() {
 	db_get("ww",load_callback);
 }
-function save() {
+function node_save() {
 	for(var index in network.body.nodes){
 		v_data.nodesArray[index-1].x=network.body.nodes[index].x;
 		v_data.nodesArray[index-1].y=network.body.nodes[index].y;
@@ -93,6 +89,7 @@ function draw() {
 		network = new vis.Network(container, data, options);
 	}
 }
+
 function toJSON(obj) {
 	return JSON.stringify(obj, null, 4);
 }
@@ -126,3 +123,21 @@ function db_get(key,callback) {
 
 
 }
+var $app_control =undefined;
+var app = angular.module("app", []);
+app.controller('app_control', ['$scope',
+	function FishAngular($scope) {
+		$app_control = $scope;
+		$scope.name = 'anglarjs';
+		$scope.data = v_data;
+		$scope.toJson =function (obj) {
+			if(TO_CREARTOR){
+				Editor.log(JSON.stringify(obj));
+			}else{
+				// console.log(JSON.stringify(obj));
+				console.log(toJSON(obj));
+			}
+
+		}
+	}
+]);
