@@ -64,7 +64,8 @@ function node_add() {
 	nodes.add(obj);
 }
 function load_callback(obj) {
-	angular.copy(v_data, obj); //深拷贝
+	v_data.nodesArray = obj.nodesArray;
+	v_data.edgesArray = obj.edgesArray;
 	// v_data = angular.copy(obj);
 	nodes.clear();
 	edges.clear();
@@ -130,6 +131,8 @@ app.controller('app_control', ['$scope',
 		$app_control = $scope;
 		$scope.name = 'anglarjs';
 		$scope.data = v_data;
+		$scope.selectnode = undefined;
+		$scope.selectEdge = undefined;
 		$scope.toJson =function (obj) {
 			if(TO_CREARTOR){
 				Editor.log(JSON.stringify(obj));
@@ -138,6 +141,34 @@ app.controller('app_control', ['$scope',
 				console.log(toJSON(obj));
 			}
 
+		};
+		$scope.onNode =function (node) {
+			for(var index in $scope.data.nodesArray){
+				// toJSON($scope.data.nodesArray[index]);
+				var item = $scope.data.nodesArray[index];
+				if(item.id === node){
+					$scope.selectnode  = item;
+				}
+
+			}
+		};
+		$scope.onEdge =function (edge) {
+			for(var index in $scope.data.edgesArray){
+				// toJSON($scope.data.edgesArray[index]);
+				var item = $scope.data.edgesArray[index];
+				if(item.id === node){
+					$scope.selectnode  = item;
+				}
+
+
+			}
+		};
+		$scope.node_update= function () {
+
+			nodes.clear();
+			edges.clear();
+			nodes.add(v_data.nodesArray);
+			edges.add(v_data.edgesArray);
 		}
 	}
 ]);

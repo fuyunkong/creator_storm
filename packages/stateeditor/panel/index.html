@@ -15,6 +15,13 @@
 
 
 
+    <!-- 引入组件库 -->
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/element-ui/lib/index.js"></script>
+
+
+
+
 
 
 
@@ -32,28 +39,67 @@
 <body ng-controller="app_control">
 <div class="container">
 
-    <h3><span class="label label-default">功能说明</span></h3>
+    <h3><span class="label label-default">{{name}}</span></h3>
 
     <div class="row">
 
         <div class="col-md-2" style="background-color: #fff0ff;box-shadow:
          inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 
-            <h4><span class="label label-default">功能说明</span></h4>
+            <h4><span class="label label-default">{{name}}</span></h4>
 
         </div>
 
         <div class="col-md-10" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 
 
-            <h5><span class="label label-default">功能说明</span></h5>
-            <div class="col-md-12" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+            <h5><span class="label label-default">{{name}}</span></h5>
+            <div class="col-md-12" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;height: 80px">
                 <!--<h5><span class="label label-default">功能说明</span></h5>-->
                 <div class="col-md-4 btn-group" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
                     <button type="button" class="btn btn-info" onclick="node_add()">add</button>
                     <button type="button" class="btn btn-info" onclick="node_load()">load</button>
                     <button type="button" class="btn btn-info" onclick="node_save()">save</button>
                     <button type="button" class="btn btn-info" ng-click="toJson(data)">toJson</button>
+                </div>
+                <!--<div class="col-md-1 btn-group" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;">-->
+
+                <!--</div>-->
+                <div class="col-md-8 " style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;height: 80px">
+                    <form class="form-inline" role="form"  ng-show="selectnode">
+                        <div class="input-group">
+                            <span class="input-group-addon">状态</span>
+                            <input type="text" class="form-control" ng-model="selectnode.label" placeholder="node_name">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">描述</span>
+                            <input type="text" class="form-control" ng-model="selectnode.des"  placeholder="node_des">
+                        </div>
+                        <button type="button" class="btn btn-info" ng-click="node_update()">更新</button>
+
+                    </form>
+                    <form class="form-inline" role="form" >
+                        <div class="input-group">
+                            <span class="input-group-addon">事件</span>
+                            <input type="text" class="form-control" ng-model="selectnode.label" placeholder="node_name">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">描述</span>
+                            <input type="text" class="form-control" ng-model="selectnode.des"  placeholder="node_des">
+                        </div>
+
+
+                        <div class="input-group">
+                            <span class="input-group-addon">起点</span>
+                            <input type="text" class="form-control" ng-model="selectnode.label" placeholder="node_name">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">终点</span>
+                            <input type="text" class="form-control" ng-model="selectnode.des"  placeholder="node_des">
+                        </div>
+                        <button type="button" class="btn btn-info" ng-click="node_update()">更新</button>
+
+                    </form>
                 </div>
 
 
@@ -93,7 +139,8 @@
 	network.on("doubleClick", function (params) {
 		params.event = "doubleClick";
 //		console.log(JSON.stringify(params, null, 4));
-		$app_control.toJson(params);
+
+//		$app_control.toJson(params);
 	});
 
 //	network.on("select", function (params) {
@@ -105,19 +152,33 @@
 		  console.log('selectNode:', params);
 //		  console.log(JSON.stringify(params, null, 4));
 		  var obj = params.nodes[0];
-		  console.log(JSON.stringify(obj));
+//		  console.log(JSON.stringify(obj));
+		  node_save();
+		  $app_control.onNode(obj);
+		  $app_control.$apply();
 	  });
 	//
 	  network.on("selectEdge", function (params) {
 		  console.log('selectEdge:', params);
 //		  console.log(JSON.stringify(params, null, 4));
-
+		  node_save();
+		  $app_control.onEdge(obj);
+		  $app_control.$apply();
 
 	  });
 
-	//  network.on("deselectNode", function (params) {
-	//	  console.log('deselectNode Event:', params);
-	//  });
+	  network.on("deselectNode", function (params) {
+//		  console.log('deselectNode Event:', params);
+		  node_save();
+		  $app_control.selectnode = undefined;
+		  $app_control.$apply();
+	  });
+      network.on("deselectEdge", function (params) {
+//		console.log('deselectEdge Event:', params);
+	      node_save();
+	      $app_control.selectEdge = undefined;
+	      $app_control.$apply();
+      });
 
 
 
