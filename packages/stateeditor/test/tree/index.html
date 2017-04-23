@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="treeDemo">
+
+<!--<script src="../../lib/jquery.min.js"></script>-->
+<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+<script src="../../lib/jquery.min.js"></script>
+<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script>
+	window.$ = window.jQuery = require('../../lib/jquery.min.js');
+	require('../../node_modules/bootstrap/dist/js/bootstrap.min.js');
+</script>
+<body>
+<div ng-controller="TreeController">
+    <folder-tree current-item="data"></folder-tree>
+</div>
+<script src="../../lib/angularjs1.6.1/angular.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -9,15 +9,19 @@
     <script type="text/javascript" src="../node_modules/store/store.js"></script>
     <script type="text/javascript" src="js/sql.js"></script>
 
-    <!--<script src="../lib/jquery.min.js"></script>-->
+
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <!--<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script>
+			window.$ = window.jQuery = require('../lib/jquery.min.js');
+			require('../node_modules/bootstrap/dist/js/bootstrap.min.js');
+    </script>
 
 
 
-    <!-- 引入组件库 -->
-    <script src="../node_modules/vue/dist/vue.js"></script>
-    <script src="../node_modules/element-ui/lib/index.js"></script>
+
 
 
 
@@ -39,14 +43,15 @@
 <body ng-controller="app_control">
 <div class="container">
 
-    <h3><span class="label label-default">{{name}}</span></h3>
+    <h3><span class="label label-default">状态编辑器</span></h3>
 
     <div class="row">
 
         <div class="col-md-2" style="background-color: #fff0ff;box-shadow:
          inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 
-            <h4><span class="label label-default">{{name}}</span></h4>
+            <h4><span class="label label-default">项目管理</span></h4>
+            <folder-tree current-item="silde_data"></folder-tree>
 
         </div>
 
@@ -138,7 +143,7 @@
 
 
 <!-- angularjs库 -->
-<script src="../lib/angularjs.js"></script>
+<script src="../lib/angularjs1.6.1/angular.js"></script>
 
 <script src="../lib/ArrayExtend.js"></script>
 

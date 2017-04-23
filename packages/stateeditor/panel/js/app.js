@@ -4,7 +4,7 @@
 
 
 
-var TO_CREARTOR = true; // 内部 true null
+var TO_CREARTOR = null; // 内部 true null
 var nodes,edges, network;
 // create an array with nodes
 var v_data={
@@ -197,6 +197,30 @@ function db_get(key,callback) {
 
 
 }
+
+
+
+
+
+
+
+
+//侧边栏
+function slide_getitem() {
+	var item ={ name : "测试", datastr: 'ww', children : [] };
+	return item;
+}
+
+function slide_get() {
+	var obj=slide_getitem();
+	obj.children.push(slide_getitem());
+	obj.children.push(slide_getitem());
+	obj.children[0].children.push(slide_getitem());
+	obj.children[0].children.push(slide_getitem());
+	return obj;
+}
+
+
 var $app_control =undefined;
 var app = angular.module("app", []);
 app.controller('app_control', ['$scope',
@@ -209,6 +233,7 @@ app.controller('app_control', ['$scope',
 		$scope.selectEdge_from = undefined;
 		$scope.selectEdge_to = undefined;
 		$scope.selectAll = undefined;
+		$scope.silde_data =slide_get();
 
 		$scope.toJson =function (obj) {
 			if(TO_CREARTOR){
@@ -358,3 +383,13 @@ app.controller('app_control', ['$scope',
 
 	}
 ]);
+
+app.directive("folderTree", function() {
+	return {
+		restrict: "E",
+		scope: {
+			currentItem: '='
+		},
+		templateUrl: 'template/tree.html'
+	};
+});

@@ -1,6 +1,7 @@
 'use strict';
 
 var db_util= undefined;
+require("./lib/jquery.min.js")
 
 module.exports = {
 
