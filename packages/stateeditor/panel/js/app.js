@@ -5,7 +5,7 @@
 
 
 var TO_CREARTOR = null; // 内部 true null
-var nodes,edges, network;
+var nodes,edges, network,silde_data;
 // create an array with nodes
 var v_data={
 	nodesArray:[],
@@ -219,7 +219,7 @@ function slide_get() {
 	obj.children[0].children.push(slide_getitem());
 	return obj;
 }
-
+silde_data=slide_get();
 
 var $app_control =undefined;
 var app = angular.module("app", []);
@@ -233,7 +233,7 @@ app.controller('app_control', ['$scope',
 		$scope.selectEdge_from = undefined;
 		$scope.selectEdge_to = undefined;
 		$scope.selectAll = undefined;
-		$scope.silde_data =slide_get();
+		$scope.silde_data =silde_data;
 
 		$scope.toJson =function (obj) {
 			if(TO_CREARTOR){
@@ -381,6 +381,7 @@ app.controller('app_control', ['$scope',
 
 
 
+
 	}
 ]);
 
@@ -390,6 +391,7 @@ app.directive("folderTree", function() {
 		scope: {
 			currentItem: '='
 		},
+		controller:'tree_control',
 		templateUrl: 'template/tree.html'
 	};
 });

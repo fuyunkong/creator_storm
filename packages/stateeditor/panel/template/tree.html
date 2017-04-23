@@ -1,12 +1,14 @@
 <div class="btn-group">
     <button type="button" class="btn btn-default dropdown-toggle"
             data-toggle="dropdown">
-        默认 <span class="caret"></span>
+        {{currentItem.name}} <span class="caret"></span>
     </button>
+
+
     <ul class="dropdown-menu" role="menu">
-        <li><a href="#">功能</a></li>
+        <li><a href="#" ng-click="slide_on(currentItem)">删除</a></li>
         <li><a href="#">另一个功能</a></li>
-        <li><a href="#">其他</a></li>
+
         <li class="divider"></li>
         <li><a href="#">分离的链接</a></li>
     </ul>
