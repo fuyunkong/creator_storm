@@ -4,7 +4,7 @@
 
 
 
-var TO_CREARTOR = null; // 内部 true null
+var TO_CREARTOR = true; // 内部 true null
 var nodes,edges, network;
 // create an array with nodes
 var v_data={
@@ -56,12 +56,75 @@ var options = {
 	}
 }
 
+function getobjfromindex(obj,index) {
+	var ii=0;
+	for(var i in obj){
+
+
+		ii+=1;
+		if(ii == index){
+			var item = obj[i];
+			return item;
+		}
+
+	}
+	return undefined;
+}
 
 function node_add() {
 	var id = nodes.length+1;
+	if(nodes.length != 0){
+		id = parseInt(getobjfromindex(nodes._data,nodes.length).id)+1;
+	}
 	var obj = {id: id+"", label: 'Node '+id,x:0,y:0,des:"节点"+id};
 	v_data.nodesArray.push(obj);
 	nodes.add(obj);
+	$app_control.add_node_select(obj);
+}
+function edge_testadd() {
+  if(nodes.length>0){
+
+	  var id = edges.length+1;
+	  if(edges.length != 0){
+		  id = parseInt(getobjfromindex(edges._data,edges.length).id)+1;
+	  }
+    var from = getobjfromindex(nodes._data,1).id;
+	  edge_add(from,from,id);
+  }else{
+  	tolog("无状态节点",-1)
+  }
+
+}
+function edge_add(from,to,id) {
+	var result = checkEdge(from,to,id);
+	if(result === true){
+		tolog("已存在...",-1);
+	}else{
+
+		var obj = {id: id+"",from: from, to: to, arrows:'to',label: 'event',font: {align: 'top'},des:"事件"+id};
+		v_data.edgesArray.push(obj);
+		edges.add(obj);
+		tolog('添加 事件',1);
+		$app_control.add_edge_select(obj);
+	}
+}
+function checkEdge(from,to,id) {
+
+	for(var index in v_data.edgesArray){
+		// toJSON($scope.data.edgesArray[index]);
+		var item = v_data.edgesArray[index];
+		if(item.id === id+""){
+			return true;
+		}
+		if(item.from+""=== from+"" && item.to+"" === to+""){
+			return true;
+		}
+
+
+
+	}
+
+	return false;
 }
 function load_callback(obj) {
 	v_data.nodesArray = obj.nodesArray;
@@ -76,9 +139,11 @@ function node_load() {
 	db_get("ww",load_callback);
 }
 function node_save() {
+	var i=0;
 	for(var index in network.body.nodes){
-		v_data.nodesArray[index-1].x=network.body.nodes[index].x;
-		v_data.nodesArray[index-1].y=network.body.nodes[index].y;
+		v_data.nodesArray[i].x=network.body.nodes[index].x;
+		v_data.nodesArray[i].y=network.body.nodes[index].y;
+		i+=1;
 	}
 	console.log(v_data);
 	db_set("ww",v_data);
@@ -93,6 +158,14 @@ function draw() {
 
 function toJSON(obj) {
 	return JSON.stringify(obj, null, 4);
+}
+function tolog(obj,type) {
+	if(TO_CREARTOR){
+		Editor.log(JSON.stringify(obj, null, 4));
+	}else{
+		console.log(JSON.stringify(obj, null, 4));
+	}
+
 }
 
 function db_set(key,obj) {
@@ -133,6 +206,10 @@ app.controller('app_control', ['$scope',
 		$scope.data = v_data;
 		$scope.selectnode = undefined;
 		$scope.selectEdge = undefined;
+		$scope.selectEdge_from = undefined;
+		$scope.selectEdge_to = undefined;
+		$scope.selectAll = undefined;
+
 		$scope.toJson =function (obj) {
 			if(TO_CREARTOR){
 				Editor.log(JSON.stringify(obj));
@@ -156,13 +233,49 @@ app.controller('app_control', ['$scope',
 			for(var index in $scope.data.edgesArray){
 				// toJSON($scope.data.edgesArray[index]);
 				var item = $scope.data.edgesArray[index];
-				if(item.id === node){
-					$scope.selectnode  = item;
+				if(item.id === edge){
+					$scope.selectEdge  = item;
+					$scope.selectEdge_from  = $scope.node_get(item.from);
+					$scope.selectEdge_to  = $scope.node_get(item.to);
 				}
 
 
 			}
 		};
+		$scope.node_get=function (id) {
+			for(var index in $scope.data.nodesArray){
+				// toJSON($scope.data.nodesArray[index]);
+				var item = $scope.data.nodesArray[index];
+				if(item.id === id+""){
+					return item;
+				}
+
+			}
+		}
+		$scope.edge_get=function (id) {
+			for(var index in $scope.data.edgesArray){
+				// toJSON($scope.data.nodesArray[index]);
+				var item = $scope.data.edgesArray[index];
+				if(item.id === id+""){
+					return item;
+				}
+
+			}
+		}
+		$scope.onSelectNode = function () {
+			$scope.ondeSelectEdge();
+		}
+		$scope.ondeSelectNode = function () {
+			$scope.selectnode = undefined;
+		}
+		$scope.onSelectEdge = function () {
+			$scope.ondeSelectNode();
+		}
+		$scope.ondeSelectEdge = function () {
+			$scope.selectEdge = undefined;
+			$scope.selectEdge_from = undefined;
+			$scope.selectEdge_to = undefined;
+		}
 		$scope.node_update= function () {
 
 			nodes.clear();
@@ -170,5 +283,78 @@ app.controller('app_control', ['$scope',
 			nodes.add(v_data.nodesArray);
 			edges.add(v_data.edgesArray);
 		}
+
+		$scope.selectChange =function (node,type) {
+			var old ={};
+			var isExist = false;
+			angular.copy($scope.selectEdge,old);
+			if(type === 0){
+				isExist= checkEdge(node.id,$scope.selectEdge.to);
+				if(isExist === true){
+					tolog("已有对应的事件...",-1);
+					$scope.selectEdge_from = $scope.node_get($scope.selectEdge.from);
+				}else{
+					$scope.selectEdge.from=node.id;
+					tolog("事件-修改成功。",1);
+				}
+
+
+			}else if(type === 1){
+				isExist= checkEdge($scope.selectEdge.from,node.id);
+				if(isExist === true){
+					tolog("已有对应的事件...",-1);
+					$scope.selectEdge_to = $scope.node_get($scope.selectEdge.to);
+				}else{
+					$scope.selectEdge.to=node.id;
+					tolog("事件-修改成功。",1);
+
+				}
+
+			}
+			$scope.node_update();
+			// tolog(node);
+			// tolog(label);
+		}
+
+		$scope.key_delete = function () {
+			if($scope.selectAll){
+				node_save();
+
+				for(var index in $scope.selectAll.nodes){
+					var item = $scope.selectAll.nodes[index];
+          var obj = $scope.node_get(item)
+					// tolog(item)
+					// tolog(obj)
+					v_data.nodesArray.remove(obj);
+				}
+				for(var index in $scope.selectAll.edges){
+					var item = $scope.selectAll.edges[index];
+					var obj = $scope.edge_get(item)
+					// tolog(item)
+					// tolog(obj)
+					v_data.edgesArray.remove(obj);
+				}
+				$scope.node_update();
+				node_save();
+
+
+			}
+		}
+		$scope.add_node_select=function (node) {
+			$scope.selectnode = node;
+			$scope.ondeSelectEdge();
+			$scope.$apply();
+		}
+		$scope.add_edge_select=function (edge) {
+			$scope.selectEdge = edge;
+			$scope.selectEdge_from  = $scope.node_get(edge.from);
+			$scope.selectEdge_to  = $scope.node_get(edge.to);
+			$scope.ondeSelectNode();
+			$scope.$apply();
+		}
+
+
+
+
 	}
 ]);

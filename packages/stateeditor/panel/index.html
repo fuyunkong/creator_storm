@@ -57,10 +57,11 @@
             <div class="col-md-12" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;height: 80px">
                 <!--<h5><span class="label label-default">功能说明</span></h5>-->
                 <div class="col-md-4 btn-group" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
-                    <button type="button" class="btn btn-info" onclick="node_add()">add</button>
+                    <button type="button" class="btn btn-info" onclick="node_add()">addNode</button>
                     <button type="button" class="btn btn-info" onclick="node_load()">load</button>
                     <button type="button" class="btn btn-info" onclick="node_save()">save</button>
                     <button type="button" class="btn btn-info" ng-click="toJson(data)">toJson</button>
+                    <button type="button" class="btn btn-info" onclick="edge_testadd()">addEdge</button>
                 </div>
                 <!--<div class="col-md-1 btn-group" style="background-color: #fff0ff;box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;">-->
 
@@ -78,24 +79,39 @@
                         <button type="button" class="btn btn-info" ng-click="node_update()">更新</button>
 
                     </form>
-                    <form class="form-inline" role="form" >
+                    <form class="form-inline" role="form"  ng-show="selectEdge">
                         <div class="input-group">
                             <span class="input-group-addon">事件</span>
-                            <input type="text" class="form-control" ng-model="selectnode.label" placeholder="node_name">
+                            <input type="text" class="form-control" ng-model="selectEdge.label" placeholder="node_name">
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">描述</span>
-                            <input type="text" class="form-control" ng-model="selectnode.des"  placeholder="node_des">
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="selectEdge.des"
+                                   placeholder="node_des">
                         </div>
 
 
                         <div class="input-group">
                             <span class="input-group-addon">起点</span>
-                            <input type="text" class="form-control" ng-model="selectnode.label" placeholder="node_name">
+                            <select class="form-control"
+                                    ng-model="selectEdge_from"
+                                    ng-change="selectChange(selectEdge_from,0)"
+                                    ng-options="x.label for x in data.nodesArray">
+                            </select>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">终点</span>
-                            <input type="text" class="form-control" ng-model="selectnode.des"  placeholder="node_des">
+                            <select type="text"
+                                    class="form-control"
+                                    ng-model="selectEdge_to"
+                                    ng-change="selectChange(selectEdge_to,1)"
+                                    ng-options="x.label for x in data.nodesArray">
+                            </select>
+
+                            <!--<h5>你选择的是: {{selectedSite.site}}</h5>-->
+                            <!--<h5>网址为: {{selectedSite.url}}</h5>-->
                         </div>
                         <button type="button" class="btn btn-info" ng-click="node_update()">更新</button>
 
@@ -124,6 +140,8 @@
 <!-- angularjs库 -->
 <script src="../lib/angularjs.js"></script>
 
+<script src="../lib/ArrayExtend.js"></script>
+
 <script type="text/javascript" src="js/app.js"></script>
 
 <script type="text/javascript" >
@@ -139,28 +157,40 @@
 	network.on("doubleClick", function (params) {
 		params.event = "doubleClick";
 //		console.log(JSON.stringify(params, null, 4));
-
+        $app_control.onSelectNode();
+        var obj = params.nodes[0];
+        node_save();
+        $app_control.onNode(obj);
+        $app_control.$apply();
 //		$app_control.toJson(params);
 	});
 
-//	network.on("select", function (params) {
-////	  console.log('select Event:', params);
-////		console.log(toJSON(params));
-//	});
+	network.on("select", function (params) {
+//	  console.log('select Event:', params);
+//		console.log(toJSON(params));
+        $app_control.selectAll = params;
+//			console.log(nodes);
+//			console.log(edges);
+	});
 
 	  network.on("selectNode", function (params) {
 		  console.log('selectNode:', params);
 //		  console.log(JSON.stringify(params, null, 4));
+
+          $app_control.onSelectNode();
 		  var obj = params.nodes[0];
 //		  console.log(JSON.stringify(obj));
 		  node_save();
 		  $app_control.onNode(obj);
 		  $app_control.$apply();
 	  });
+
 	//
 	  network.on("selectEdge", function (params) {
 		  console.log('selectEdge:', params);
 //		  console.log(JSON.stringify(params, null, 4));
+          $app_control.onSelectEdge();
+          var obj = params.edges[0];
 		  node_save();
 		  $app_control.onEdge(obj);
 		  $app_control.$apply();
@@ -170,17 +200,29 @@
 	  network.on("deselectNode", function (params) {
 //		  console.log('deselectNode Event:', params);
 		  node_save();
-		  $app_control.selectnode = undefined;
+		  $app_control.ondeSelectNode();
 		  $app_control.$apply();
 	  });
       network.on("deselectEdge", function (params) {
 //		console.log('deselectEdge Event:', params);
 	      node_save();
-	      $app_control.selectEdge = undefined;
+	      $app_control.ondeSelectEdge();
 	      $app_control.$apply();
       });
+		network.on("dragEnd", function (params) {
+            node_save();
+		});
 
+		function keydown() {
+			var keycode = event.keyCode;
+//			var realkey = String.fromCharCode(event.keyCode);
+			tolog(keycode);
+			if(keycode===46){
+               $app_control.key_delete();
+            }
 
+		}
+		document.onkeydown=keydown;
 
 
 </script>
