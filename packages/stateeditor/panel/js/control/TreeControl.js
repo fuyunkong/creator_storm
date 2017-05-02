@@ -20,11 +20,26 @@ app.controller('tree_control', ['$scope',
 			if(obj_msg === undefined){
 				silde_data.children= [];
 			}else{
-
+				ang_delete_obj(silde_data.children,obj_msg,"children");
 			}
-			tolog(silde_data);
+
 
 
 		}
 
 	}]);
+
+function ang_delete_obj(obj_arr,obj_msg) {
+	// tolog(obj+item+children);
+	for(var i=0;i<obj_arr.length;i++){
+		var item = obj_arr[i];
+
+		if(item.$$hashKey == obj_msg){
+			obj_arr.remove(item);
+			return;
+		}else{
+			ang_delete_obj(item.children,obj_msg);
+		}
+
+	}
+}
