@@ -159,11 +159,20 @@ function draw() {
 function toJSON(obj) {
 	return JSON.stringify(obj, null, 4);
 }
-function tolog(obj,type) {
+function tolog(msg,type,enter) {
 	if(TO_CREARTOR){
-		Editor.log(JSON.stringify(obj, null, 4));
+		Editor.log(msg);
 	}else{
-		console.log(JSON.stringify(obj, null, 4));
+		console.log(msg);
+	}
+	if(type == -1 || type<=0 || type == undefined){
+		$app_control.addErrorTips(msg);
+	}else if(type == 1){
+		$app_control.addInfoTips(msg);
+	}
+
+	if(!enter){
+		$app_control.$apply();
 	}
 
 }
@@ -308,6 +317,9 @@ app.controller('app_control', ['$scope',
 			nodes.add(v_data.nodesArray);
 			edges.add(v_data.edgesArray);
 		}
+		$scope.edge_name_change = function () {
+			tolog($scope.selectEdge.label,1,true);
+		}
 
 		$scope.selectChange =function (node,type) {
 			var old ={};
@@ -316,22 +328,22 @@ app.controller('app_control', ['$scope',
 			if(type === 0){
 				isExist= checkEdge(node.id,$scope.selectEdge.to);
 				if(isExist === true){
-					tolog("已有对应的事件...",-1);
+					tolog("已有对应的事件...",-1,true);
 					$scope.selectEdge_from = $scope.node_get($scope.selectEdge.from);
 				}else{
 					$scope.selectEdge.from=node.id;
-					tolog("事件-修改成功。",1);
+					tolog("事件-修改成功。",1,true);
 				}
 
 
 			}else if(type === 1){
 				isExist= checkEdge($scope.selectEdge.from,node.id);
 				if(isExist === true){
-					tolog("已有对应的事件...",-1);
+					tolog("已有对应的事件...",-1,true);
 					$scope.selectEdge_to = $scope.node_get($scope.selectEdge.to);
 				}else{
 					$scope.selectEdge.to=node.id;
-					tolog("事件-修改成功。",1);
+					tolog("事件-修改成功。",1,true);
 
 				}
 
@@ -380,6 +392,32 @@ app.controller('app_control', ['$scope',
 
 
 
+		//提示
+		$scope.tipcount = 3;
+		$scope.tips ="操作提示";
+		$scope.toTips = function (tip) {
+			$scope.tips += tip+"&nbsp;&nbsp;&nbsp;&nbsp;";
+
+			$scope.tipcount-=1;
+			if($scope.tipcount <= 0){
+				var count = fmath.GetRandomNum(1,6);
+				$scope.tipcount = count;
+				$scope.tips +="<br><br>";
+			}
+		};
+
+		$scope.addErrorTips = function (msg) {
+			var tip ="<labe class='label label-danger'>"+msg+"</labe>";
+			$scope.toTips(tip);
+		};
+
+		$scope.addInfoTips = function (msg) {
+			var tip ="<labe class='label label-warning'>"+msg+"</labe>";
+			$scope.toTips(tip);
+		};
+
+
+
 
 
 	}
@@ -395,3 +433,11 @@ app.directive("folderTree", function() {
 		templateUrl: 'template/tree.html'
 	};
 });
+
+//支持网页插入解析
+app.filter('trustHtml', function ($sce) {
+	return function (input) {
+		return $sce.trustAsHtml(input);
+	}
+});
+

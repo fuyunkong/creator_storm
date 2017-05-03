@@ -75,11 +75,11 @@
                     <form class="form-inline" role="form"  ng-show="selectnode">
                         <div class="input-group">
                             <span class="input-group-addon">状态</span>
-                            <input type="text" class="form-control" ng-model="selectnode.label" placeholder="node_name">
+                            <input type="text" class="form-control" ng-model="selectnode.label" ng-change="node_update()" placeholder="node_name">
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">描述</span>
-                            <input type="text" class="form-control" ng-model="selectnode.des"  placeholder="node_des">
+                            <input type="text" class="form-control" ng-model="selectnode.des"   placeholder="node_des">
                         </div>
                         <button type="button" class="btn btn-info" ng-click="node_update()">更新</button>
 
@@ -87,7 +87,7 @@
                     <form class="form-inline" role="form"  ng-show="selectEdge">
                         <div class="input-group">
                             <span class="input-group-addon">事件</span>
-                            <input type="text" class="form-control" ng-model="selectEdge.label" placeholder="node_name">
+                            <input type="text" class="form-control" ng-model="selectEdge.label" ng-change="node_update()" placeholder="node_name">
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">描述</span>
@@ -99,13 +99,13 @@
 
 
                         <div class="input-group">
-                            <span class="input-group-addon">起点</span>
-                            <select class="form-control"
-                                    ng-model="selectEdge_from"
-                                    ng-change="selectChange(selectEdge_from,0)"
-                                    ng-options="x.label for x in data.nodesArray">
-                            </select>
-                        </div>
+                        <span class="input-group-addon">起点</span>
+                        <select class="form-control"
+                                ng-model="selectEdge_from"
+                                ng-change="selectChange(selectEdge_from,0)"
+                                ng-options="x.label for x in data.nodesArray">
+                        </select>
+                    </div>
                         <div class="input-group">
                             <span class="input-group-addon">终点</span>
                             <select type="text"
@@ -125,6 +125,7 @@
 
 
             </div>
+            <div class="alert alert-success text-center" scroll-glue-bottom="true"  ng-bind-html="tips |trustHtml" role="alert" style="align-content:left;margin-left:0px;height:80px;overflow:auto; position: relative;"></div>
             <div class="col-md-12" >
                 <div id="mynetwork"></div>
             </div>
@@ -146,6 +147,7 @@
 <script src="../lib/angularjs1.6.1/angular.js"></script>
 
 <script src="../lib/ArrayExtend.js"></script>
+<script src="../lib/MathUtil.js"></script>
 
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/control/TreeControl.js"></script>
@@ -222,7 +224,7 @@
 		function keydown() {
 			var keycode = event.keyCode;
 //			var realkey = String.fromCharCode(event.keyCode);
-			tolog(keycode);
+//			tolog(keycode);
 			if(keycode===46){
                $app_control.key_delete();
             }
