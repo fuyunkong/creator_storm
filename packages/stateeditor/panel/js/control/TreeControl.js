@@ -8,8 +8,8 @@ app.controller('tree_control', ['$scope',
 
 		//侧边栏
 		$scope.slide_add = function (item) {
-			tolog(item);
-			tolog(silde_data);
+			// tolog(toJSON(item));
+			// tolog(toJSON(silde_data));
 			item.children.push(slide_getitem());
 
 		}
