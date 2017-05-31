@@ -103,7 +103,9 @@ function edge_add(from,to,id) {
 
 		var obj = {id: id+"",from: from, to: to, arrows:'to',label: 'event',font: {align: 'top'},des:"事件"+id};
 		v_data.edgesArray.push(obj);
-		edges.add(obj);
+		// edges.add(obj);
+		edges.add(v_data.edgesArray);
+		//nodes.add(v_data.nodesArray);
 		tolog('添加 事件',1);
 		$app_control.add_edge_select(obj);
 	}

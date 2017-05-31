@@ -103,7 +103,7 @@
                         <select class="form-control"
                                 ng-model="selectEdge_from"
                                 ng-change="selectChange(selectEdge_from,0)"
-                                ng-options="x.label for x in data.nodesArray">
+                                ng-options="x.label for x in data.nodesArray track by x.id">
                         </select>
                     </div>
                         <div class="input-group">
@@ -112,7 +112,7 @@
                                     class="form-control"
                                     ng-model="selectEdge_to"
                                     ng-change="selectChange(selectEdge_to,1)"
-                                    ng-options="x.label for x in data.nodesArray">
+                                    ng-options="x.label for x in data.nodesArray  track by x.id">
                             </select>
 
                             <!--<h5>你选择的是: {{selectedSite.site}}</h5>-->
