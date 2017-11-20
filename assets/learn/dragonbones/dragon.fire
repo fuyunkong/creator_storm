@@ -24,7 +24,7 @@
     "_active": true,
     "_components": [],
     "_prefab": null,
-    "_id": "2bc9f6f3-3337-4115-8e60-c8ce9690d4ec",
+    "_id": "8c502973-b2f8-475e-9c16-d639b01609b0",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
@@ -66,7 +66,7 @@
       }
     ],
     "_prefab": null,
-    "_id": "1478dmn2SVAOIDh2ENK/v/r",
+    "_id": "70F8O8fFhBCIVPAa3NPOuE",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
@@ -134,7 +134,7 @@
       }
     ],
     "_prefab": null,
-    "_id": "4bf107hYRJEB6g5Vt+QmhQf",
+    "_id": "a2876d+OlG+a1ZiMingfrn",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
@@ -151,7 +151,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 233.46,
+      "width": 224.61,
       "height": 50
     },
     "_rotationX": 0,
@@ -160,8 +160,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 452,
-      "y": 574
+      "x": 480,
+      "y": 500
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -178,7 +178,7 @@
       "__id__": 4
     },
     "_enabled": true,
-    "_N$string": "<color=#00ff00>startdd</c> <color=#0fffff>game</color>",
+    "_N$string": "<color=#00ff00>dragon</c> <color=#0fffff>learn</color>",
     "_N$horizontalAlign": 0,
     "_N$fontSize": 40,
     "_N$font": null,
